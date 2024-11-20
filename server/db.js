@@ -9,12 +9,12 @@ const connectToDatabase = async () => {
         // Log the value of MONGO_URI to verify it's being loaded correctly
         console.log('MONGO_URI:', process.env.MONGO_URI);
 
-        const connect = await mongoose.connect(process.env.MONGO_URI,{});
+        const connect = await mongoose.connect(process.env.MONGO_URI, {});
         
         console.log(`MongoDb Connected: ${connect.connection.host}`);
     } catch (error) {
         console.log(`Error: ${error.message}`);
-        process.exit(1) 
+        //process.exit(1) 
     }
 }
 

@@ -9,7 +9,7 @@ const getProducts= async (req, res) => {
   const page = parseInt(req.params.page) //1., 2 , or 3
   const perPage = parseInt(req.params.perPage) //10
 
-  const products = await Product.find({}); //fetching data
+  const products = await Product.find({}); //fetching all data
     
     if(page && perPage) {
       const totalPages = Math.ceil(products.length / perPage);
@@ -23,8 +23,23 @@ const getProducts= async (req, res) => {
     
 };
 
+
+// get single products
+// public route
+const getProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+};
+
 productRoutes.route('/:page/:perPage').get(getProducts);
 productRoutes.route('/').get(getProducts); // getting all products
+productRoutes.route('/:id').get(getProduct); //getting single products -- public route
 
 
 export default productRoutes;
