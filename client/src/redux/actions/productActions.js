@@ -1,4 +1,4 @@
-import { setProducts, setLoading, setError, setPagination, setFavorites, setFavoritesToggled, setProduct } from "../slices/product";
+import { setProducts, setLoading, setError, setPagination, setFavorites, setFavoritesToggle, setProduct } from "../slices/product";
 import axios from "axios";
 
 export const getProducts = (page, favouriteToggle) => async (dispatch) => {
@@ -48,10 +48,10 @@ export const toggleFavorites = (toggle) => async (dispatch, getState) => {
 
 	if (toggle) {
 		const filteredProducts = products.filter((product) => favorites.includes(product._id));
-		dispatch(setFavoritesToggled(toggle));
+		dispatch(setFavoritesToggle(toggle));
 		dispatch(setProducts(filteredProducts));
 	} else {
-		dispatch(setFavoritesToggled(false));
+		dispatch(setFavoritesToggle(false));
 		dispatch(getProducts(1));
 	}
 };

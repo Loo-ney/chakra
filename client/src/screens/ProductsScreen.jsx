@@ -35,7 +35,7 @@ const ProductsScreen = () => {
 				<Box>
 					<Wrap spacing='30px' justify='center' minHeight='80vh' mx={{ base: "12", md: "20", lg: "32" }}>
 						{error ? (
-							<Alert state='error'>
+							<Alert status='error'>
                 <AlertIcon />
                 <AlertTitle>We are sorry! </AlertTitle>
                 <AlertDescription>{error}</AlertDescription>

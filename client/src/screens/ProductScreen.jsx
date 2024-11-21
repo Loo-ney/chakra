@@ -16,6 +16,10 @@ import {
 	Stack,
 	Text,
 	Wrap,
+  useToast,
+	Textarea,
+	Input,
+	Tooltip,
 } from '@chakra-ui/react';
 import { BiCheckShield, BiPackage, BiSupport } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
@@ -132,6 +136,9 @@ const ProductScreen = () => {
                   <Stack width='270px'>
                    <Flex alignItems='center'>
                      <BiPackage size='20px' />
+                     <Text fontWeight='medium' fontSize='sm' ml='2'>
+												Shipped in 2 - 3 days
+											</Text>
                    </Flex> 
                    <Flex alignItems='center'>
                      <BiCheckShield size='20px' />
