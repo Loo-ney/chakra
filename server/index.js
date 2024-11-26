@@ -17,6 +17,8 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 
+app.get('/api/config/google', (req, res) => res.send(process.env.GOOGLE_CLIENT_ID));
+
 const port = 5001;
 
 

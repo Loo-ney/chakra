@@ -139,26 +139,26 @@ export const resetState = () => async (dispatch) => {
 	dispatch(stateReset());
 };
 
-// export const googleLogin = (googleId, email, name, googleImage) => async (dispatch) => {
-// 	dispatch(setLoading(true));
-// 	try {
-// 		const config = { headers: { 'Content-Type': 'application/json' } };
+export const googleLogin = (googleId, email, name, googleImage) => async (dispatch) => {
+	dispatch(setLoading(true));
+	try {
+		const config = { headers: { 'Content-Type': 'application/json' } };
 
-// 		const { data } = await axios.post('/api/users/google-login', { googleId, email, name, googleImage }, config);
-// 		dispatch(userLogin(data));
-// 		localStorage.setItem('userInfo', JSON.stringify(data));
-// 	} catch (error) {
-// 		dispatch(
-// 			setError(
-// 				error.response && error.response.data.message
-// 					? error.response.data.message
-// 					: error.message
-// 					? error.message
-// 					: 'An expected error has occured. Please try again later.'
-// 			)
-// 		);
-// 	}
-// };
+		const { data } = await axios.post('/api/users/google-login', { googleId, email, name, googleImage }, config);
+		dispatch(userLogin(data));
+		localStorage.setItem('userInfo', JSON.stringify(data)); //incase user refresh the page, store in local storage
+	} catch (error) {
+		dispatch(
+			setError(
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message
+					? error.message
+					: 'An expected error has occured. Please try again later.'
+			)
+		);
+	}
+};
 
 // export const getUserOrders = () => async (dispatch, getState) => {
 // 	dispatch(setLoading(true));
