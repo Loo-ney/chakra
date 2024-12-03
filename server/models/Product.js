@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema ({
         type: Boolean,
         required: true,
     },
-    stripedId: {
+    razorpayId: {
         type: String,
     },
 }, 

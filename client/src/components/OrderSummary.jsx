@@ -3,7 +3,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Link as ReactLink } from 'react-router-dom';
 
-const OrderSummary = ({ checkoutSreen = false }) => {
+const OrderSummary = ({ checkoutScreen = false }) => { //create default false,to avoid problems in other page
   const { subtotal, shipping } = useSelector((state) => state.cart);
 
   return (
@@ -37,7 +37,7 @@ const OrderSummary = ({ checkoutSreen = false }) => {
 				</Flex>
         </Stack>
         <Button
-            hidden={checkoutSreen}
+            hidden={checkoutScreen} //checkout button is hidden 
             as={ReactLink}
             to='/checkout'
             colorScheme='cyan'

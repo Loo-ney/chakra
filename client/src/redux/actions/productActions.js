@@ -1,4 +1,13 @@
-import { setProducts, setLoading, setError, setPagination, setFavorites, setFavoritesToggle, setProduct } from "../slices/product";
+import { 
+	setProducts, 
+	setLoading, 
+	setError, 
+	setPagination, 
+	setFavorites, 
+	setFavoritesToggle, 
+	setProduct,
+	productReviewed,
+ } from "../slices/product";
 import axios from "axios";
 
 export const getProducts = (page, favouriteToggle) => async (dispatch) => {
@@ -75,3 +84,26 @@ export const getProduct = (id) => async (dispatch) => {
        );
     }
 }
+
+
+export const createProductReview = (productId, userId, comment, rating, title) => async (dispatch, getState) => {
+	const {
+		user: {userInfo},
+	} = getState()
+	try {
+		const config = { headers: { Authorization: `Bearer ${userInfo.token}`, 'Content-Type': 'application/json' } };
+
+		await axios.post (`/api/products/reviews/${productId}`, { comment, userId, rating, title }, config);
+		dispatch(productReviewed(true));
+	} catch (error) {
+		dispatch(
+			setError(
+				error.response && error.response.data.message
+					? error.data.message
+					: error.message
+					? error.message
+					: "An expected error has occured. Please try again later."
+			    )
+       );
+	}
+} 

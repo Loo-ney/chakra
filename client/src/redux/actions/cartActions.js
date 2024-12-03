@@ -14,7 +14,7 @@ export const addCartItem = (id, qty) => async (dispatch) => {
 			stock: data.stock,
 			brand: data.brand,
 			qty,
-			stripeId: data.stripeId,
+			razorpayId: data.razorpayId,
 		};
 
 		dispatch(cartItemAdd(itemToAdd));
