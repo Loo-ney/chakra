@@ -36,7 +36,7 @@ import ColorModeToggle from './ColorModeToggle';
 import NavLink from './NavLink';
 import { FcGoogle } from "react-icons/fc";
 import { googleLogout } from "@react-oauth/google";
-// import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 
 const Links = [
 	{ name: 'Products', route: '/products' },
@@ -167,6 +167,7 @@ const Header = () => {
 						<MenuItem as={ReactLink} to='/order-history' >
 							Order History
 						</MenuItem>
+						<MenuDivider />
 						<MenuItem as={ReactLink} to='/profile' >
 							Profile
 						</MenuItem>
@@ -174,7 +175,8 @@ const Header = () => {
 							<>
 							  <MenuDivider />
 							  <MenuItem as={ReactLink} to='/admin-console' >
-										Admin Console
+							  	<MdOutlineAdminPanelSettings />
+								 <Text ml='2'>Admin Console</Text>
 							 </MenuItem>
 							</>
 						)}

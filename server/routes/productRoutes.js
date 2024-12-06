@@ -1,6 +1,6 @@
 import express from "express";
 import Product from "../models/Product.js";
-import { protectRoute } from "../middleware/authMiddleware.js";
+import { admin, protectRoute } from "../middleware/authMiddleware.js";
 import asyncHandler from "express-async-handler";
 import User from '../models/User.js';
 
@@ -21,8 +21,9 @@ const getProducts= async (req, res) => {
     } else {
       res.json({ products, pagination: {} });
     }
-    
 };
+
+
 // get single products
 // public route
 const getProduct = async (req, res) => {
@@ -72,10 +73,108 @@ const createProductReview = asyncHandler(async(req, res) => {
   }
 })
 
+
+const createNewProduct = asyncHandler(async (req, res) => {
+	const { brand, name, category, stock, price, images, productIsNew, description, subtitle, razorpayId } = req.body;
+
+	const newProduct = await Product.create({
+		brand,
+		name,
+		category,
+		subtitle,
+		description,
+		stock,
+		price,
+		images,
+		productIsNew,
+		razorpayId: 0,
+	});
+
+	await newProduct.save();
+
+	const products = await Product.find({});
+
+	if (newProduct) {
+		res.json(products);
+	} else {
+		res.status(404).send('Product could not be uploaded.');
+		throw new Error('Product could not be uploaded.');
+	}
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
+	const { brand, name, category, stock, price, id, productIsNew, description, subtitle, razorpayId, imageOne, imageTwo } =
+		req.body;
+	console.log(razorpayId);
+
+	const product = await Product.findById(id);
+
+	if (product) {
+		product.name = name;
+		product.subtitle = subtitle;
+		product.price = price;
+		product.description = description;
+		product.brand = brand;
+		product.category = category;
+		product.stock = stock;
+		product.productIsNew = productIsNew;
+		product.razorpayId = razorpayId;
+		product.images = [imageOne, imageTwo];
+
+		await product.save();
+
+		const products = await Product.find({});
+
+		res.json(products);
+	} else {
+		res.status(404).send('Product not found.');
+		throw new Error('Product not found.');
+	}
+});
+
+const removeProductReview = asyncHandler(async (req, res) => {
+	const product = await Product.findById(req.params.productId);
+
+	const updatedReviews = product.reviews.filter((review) => review._id.valueOf() !== req.params.reviewId);
+
+	if (product) {
+		product.reviews = updatedReviews;
+
+		product.numberOfReviews = product.reviews.length;
+
+		if (product.numberOfReviews > 0) {
+			product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+		} else {
+			product.rating = 5;
+		}
+
+		await product.save();
+		const products = await Product.find({});
+		res.json({ products, pagination: {} });
+	} else {
+		res.status(404)
+		throw new Error('Product not found.');
+	}
+});
+
+const deleteProduct = asyncHandler(async (req, res) => {
+	const product = await Product.findByIdAndDelete(req.params.id);
+
+	if (product) {
+		res.json(product);
+	} else {
+		res.status(404).send('Product not found.');
+		throw new Error('Product not found.');
+	}
+});
+
 productRoutes.route('/:page/:perPage').get(getProducts);
 productRoutes.route('/').get(getProducts); // getting all products
 productRoutes.route('/:id').get(getProduct); //getting single products -- public route
 productRoutes.route('/reviews/:id').post(protectRoute, createProductReview)
-
+productRoutes.route('/').post(protectRoute, admin, createNewProduct);
+productRoutes.route('/').put(protectRoute, admin, updateProduct);
+productRoutes.route('/:productId/:reviewId').put(protectRoute, admin, removeProductReview);
+productRoutes.route('/:id').delete(protectRoute, admin, deleteProduct);
 
 export default productRoutes;

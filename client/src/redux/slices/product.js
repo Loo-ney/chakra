@@ -9,6 +9,8 @@ export const initialState = {
     favoritesToggled: false,
     reviewed: false,
     favorites: JSON.parse(localStorage.getItem('favorites')) ?? [], 
+    reviewRemoval: false,
+    productUpdate: false,
 };
 
 export const productSlice = createSlice({
@@ -50,6 +52,21 @@ export const productSlice = createSlice({
 			state.error = null;
 			state.reviewed = payload;
 		},
+        resetError: (state) => {
+			state.error = null;
+			state.reviewed = false;
+			state.productUpdate = false;
+			state.reviewRemoval = false;
+		},
+        setProductUpdateFlag: (state) => {
+			state.productUpdate = true;
+			state.loading = false;
+		},
+        setReviewRemovalFlag: (state) => {
+            state.error = null;
+            state.reviewRemoval = true;
+            state.loading = false;
+        },
 
     },
 })
@@ -63,6 +80,9 @@ export const {
     setFavoritesToggle,
     setProduct,
     productReviewed,
+    resetError,
+    setProductUpdateFlag,
+    setReviewRemovalFlag,
 } = productSlice.actions;
 
 export default productSlice.reducer;

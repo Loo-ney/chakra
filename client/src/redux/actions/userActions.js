@@ -70,7 +70,7 @@ export const verifyEmail = (token) => async (dispatch) => {
         // authorization is set in the back end we use it here
 		const config = { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } };
 
-		await axios.get(`/api/users/verify-email`, config);
+		 await axios.get(`/api/users/verify-email`,  config);
 
 		dispatch(verificationEmail());
 		const userInfo = JSON.parse(localStorage.getItem('userInfo'));
